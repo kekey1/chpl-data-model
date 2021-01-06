@@ -386,6 +386,21 @@ CREATE TABLE openchpl.certified_product_accessibility_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.listing_errors
+(
+  	id bigserial NOT NULL,
+	certified_product_id bigint NOT NULL,
+	error text NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  	CONSTRAINT listing_errors_pk PRIMARY KEY (id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+		REFERENCES openchpl.certified_product (certified_product_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE openchpl.meaningful_use_user (
 	id  bigserial NOT NULL,
 	certified_product_id bigint NOT NULL,
